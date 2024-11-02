@@ -41,7 +41,7 @@ model Product {
     name        String   @db.String
     description String   @db.String
     price       Float    @db.Double
-    image       String[] // Changed from images array to single image
+    images      String[]
     category    Category
     seller      String   @db.String
     stock       Int      @db.Int
