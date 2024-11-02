@@ -3,7 +3,7 @@ import React from "react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import front from "@/assets/front_image.png";
-import GoogleBtn from "../../../components/login/GoogleBtn";
+import GoogleBtn from "../../components/login/GoogleBtn";
 
 const LoginPage = () => {
   return (
