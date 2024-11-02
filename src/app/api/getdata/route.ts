@@ -4,5 +4,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function GET() {
-  return NextResponse.json({ msg: "Hellow" });
+    return NextResponse.json({ msg: "Hellow" });
 }

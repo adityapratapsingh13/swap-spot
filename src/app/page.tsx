@@ -7,16 +7,16 @@ import { SessionProvider, useSession } from "next-auth/react";
 import Navbar from "./Navbar/page";
 
 export default function Home() {
-  const { data: session, status } = useSession();
-  console.log(session);
+    const { data: session, status } = useSession();
+    console.log(session);
 
-  return (
-    <SessionProvider>
-      <div>
-        <Navbar></Navbar>
-        {/* <LoginPage /> */}
-        Main page
-      </div>
-    </SessionProvider>
-  );
+    return (
+        <SessionProvider>
+            <div>
+                <Navbar></Navbar>
+                {/* <LoginPage /> */}
+                Main page
+            </div>
+        </SessionProvider>
+    );
 }

@@ -12,7 +12,7 @@
 //         return NextResponse.json({user},{status:201})
 //     }catch(error){
 //         console.log(error);
-        
+
 //        return NextResponse.json({user},{status:201})
 //     }finally{
 //         await prisma.$disconnect();
