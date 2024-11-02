@@ -1,8 +1,7 @@
 import React from "react";
 import Navbar from "../Navbar/page";
-import MiddlePart from "../../components/dashbord/MiddlePart";
-// import Home from "@/components/dashbord/listProduct";
-import ListProduct from "@/components/dashbord/listProduct";
+import MiddlePart from "@/components/dashboard/MiddlePart";
+import ListProduct from "@/components/dashboard/listProduct";
 
 function page() {
   return (

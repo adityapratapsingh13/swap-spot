@@ -1,10 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
+import Image from "next/image";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+
+  console.log("Products: ", products);
 
   useEffect(() => {
     fetchProducts();
@@ -33,21 +36,21 @@ export default function ListProduct() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Product List</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products?.map((product) => (
-          <div 
+        {/* {products?.map((product) => (
+          <div
             key={product.id}
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
             <div className="relative h-48 overflow-hidden">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
               />
             </div>
-            
+
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">
@@ -57,33 +60,38 @@ export default function ListProduct() {
                   {product.category}
                 </span>
               </div>
-              
+
               <p className="text-gray-600 mb-4 line-clamp-2">
                 {product.description}
               </p>
-              
+
               <div className="flex justify-between items-center mb-4">
                 <span className="text-2xl font-bold text-gray-900">
                   ${product.price.toFixed(2)}
                 </span>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium
-                  ${product.stock > 10 
-                    ? 'bg-green-100 text-green-800' 
-                    : product.stock > 0 
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                  {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium
+                  ${
+                    product.stock > 10
+                      ? "bg-green-100 text-green-800"
+                      : product.stock > 0
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {product.stock > 0
+                    ? `${product.stock} in stock`
+                    : "Out of stock"}
                 </span>
               </div>
-              
+
               <div className="text-sm text-gray-500">
                 Added on: {new Date(product.createdAt).toLocaleDateString()}
               </div>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
-    </div>  
+    </div>
   );
 }

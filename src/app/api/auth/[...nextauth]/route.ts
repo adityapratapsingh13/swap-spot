@@ -53,7 +53,7 @@ export const authOptions: AuthOptions = {
       if (url.startsWith(baseUrl)) {
         return url;
       }
-      return "/MainDashboard"; // Redirect to the main dashboard after login
+      return "/dashboard"; // Redirect to the main dashboard after login
     },
   },
 };

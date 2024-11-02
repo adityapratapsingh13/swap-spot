@@ -1,69 +1,69 @@
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  picture       String?
-  accounts      Account[]
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    picture       String?
+    accounts      Account[]
 }
 
 model Account {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?  @db.String
-  access_token      String?  @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?  @db.String
-  session_state     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String   @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?  @db.String
+    access_token      String?  @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?  @db.String
+    session_state     String?
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Product {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  price       Float
-  image       String
-  category    Category
-  seller      String
-  stock       Int
-  ratings     Float    @default(0)
-  reviews     Review[]
-  createdAt   DateTime @default(now())
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    description String
+    price       Float
+    image       String[]
+    category    Category
+    seller      String
+    stock       Int
+    ratings     Float    @default(0)
+    reviews     Review[]
+    createdAt   DateTime @default(now())
 }
 
 model Review {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @db.ObjectId
-  rating    Float
-  comment   String
-  createdAt DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    product   Product  @relation(fields: [productId], references: [id])
+    productId String   @db.ObjectId
+    rating    Float
+    comment   String
+    createdAt DateTime @default(now())
 }
 
 enum Category {
-  Electronics
-  Fashion
-  Furniture
-  Accessories
-  Sports
-  Others
+    Electronics
+    Fashion
+    Furniture
+    Accessories
+    Sports
+    Others
 }

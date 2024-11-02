@@ -1,19 +1,17 @@
-"use client"
+"use client";
 
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Import useRouter hook
+import { useRouter } from "next/navigation";
 import bg1 from "@/assets/bg2.jpg";
 import bg2 from "@/assets/bg.png";
-import { motion } from "framer-motion";
 
 const MiddlePart = () => {
   const router = useRouter();
 
   const navigateToListProduct = () => {
-
-  console.log("Button clicked, navigating to MainDashboard");
-    router.push("/products"); 
+    console.log("Button clicked, navigating to Dashboard");
+    router.push("/products");
   };
 
   return (
@@ -88,7 +86,6 @@ const MiddlePart = () => {
 };
 
 export default MiddlePart;
-
 
 // const MiddlePart = () => {
 //   // const containerVariants = {
