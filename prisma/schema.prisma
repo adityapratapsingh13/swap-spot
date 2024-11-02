@@ -37,33 +37,33 @@ model Account {
 }
 
 model Product {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @db.String
-  description String   @db.String
-  price       Float    @db.Double
-  image       String[]     // Changed from images array to single image
-  category    Category
-  seller      String   @db.String
-  stock       Int      @db.Int
-  ratings     Float    @default(0) @db.Double
-  reviews     Review[] @relation("ProductReviews")
-  createdAt   DateTime @default(now())
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String   @db.String
+    description String   @db.String
+    price       Float    @db.Double
+    image       String[] // Changed from images array to single image
+    category    Category
+    seller      String   @db.String
+    stock       Int      @db.Int
+    ratings     Float    @default(0) @db.Double
+    reviews     Review[] @relation("ProductReviews")
+    createdAt   DateTime @default(now())
 }
 
 model Review {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  product   Product  @relation("ProductReviews", fields: [productId], references: [id])
-  productId String   @db.ObjectId
-  rating    Float    @db.Double
-  comment   String   @db.String
-  createdAt DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    product   Product  @relation("ProductReviews", fields: [productId], references: [id])
+    productId String   @db.ObjectId
+    rating    Float    @db.Double
+    comment   String   @db.String
+    createdAt DateTime @default(now())
 }
 
 enum Category {
-  Electronics
-  fastion
-  Furtinure
-  Accessories
-  Sports
-  othres
+    Electronics
+    Fashion
+    Furniture
+    Accessories
+    Sports
+    Others
 }
