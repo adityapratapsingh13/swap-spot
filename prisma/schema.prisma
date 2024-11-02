@@ -35,3 +35,35 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  image       String
+  category    Category
+  seller      String
+  stock       Int
+  ratings     Float    @default(0)
+  reviews     Review[]
+  createdAt   DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+  rating    Float
+  comment   String
+  createdAt DateTime @default(now())
+}
+
+enum Category {
+  Electronics
+  Fashion
+  Furniture
+  Accessories
+  Sports
+  Others
+}

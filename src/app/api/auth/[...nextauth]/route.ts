@@ -1,8 +1,8 @@
 // // app/api/auth/[...nextauth]/route.ts
-//@ts-nocheck
+
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+// import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 // import { log } from "console";
 
@@ -20,25 +20,24 @@ export const authOptions: AuthOptions = {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
         const existingUser = await prisma.user.findUnique({
-          where :{email:profile?.email}
+          where: { email: profile?.email },
         });
-        if(existingUser){
+        if (existingUser) {
           console.log("user already exists");
-          
-        }else{
-          const newUser =await prisma.user.create({
-            data:{
-              name:profile?.name,
-              email:profile?.email,
-              picture:profile?.picture
+        } else {
+          await prisma.user.create({
+            data: {
+              name: profile?.name,
+              email: profile?.email,
+              picture: profile?.picture,
             },
-          })
+          });
 
-          console.log(profile);
+          // console.log(profile);
 
           // return newUser;
         }
-        console.log(profile);
+        // console.log(profile);
 
         if (profile) {
           return true;
@@ -54,13 +53,12 @@ export const authOptions: AuthOptions = {
       if (url.startsWith(baseUrl)) {
         return url;
       }
-      return '/MainDashboard'; // Redirect to the main dashboard after login
+      return "/MainDashboard"; // Redirect to the main dashboard after login
     },
   },
 };
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
-
 
 // src/app/api/auth/[...nextauth]/route.ts
