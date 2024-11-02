@@ -38,32 +38,32 @@ model Account {
 
 model Product {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  price       Float
-  image       String
+  name        String   @db.String
+  description String   @db.String
+  price       Float    @db.Double
+  image       String[]     // Changed from images array to single image
   category    Category
-  seller      String
-  stock       Int
-  ratings     Float    @default(0)
-  reviews     Review[]
+  seller      String   @db.String
+  stock       Int      @db.Int
+  ratings     Float    @default(0) @db.Double
+  reviews     Review[] @relation("ProductReviews")
   createdAt   DateTime @default(now())
 }
 
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation("ProductReviews", fields: [productId], references: [id])
   productId String   @db.ObjectId
-  rating    Float
-  comment   String
+  rating    Float    @db.Double
+  comment   String   @db.String
   createdAt DateTime @default(now())
 }
 
 enum Category {
   Electronics
-  Fashion
-  Furniture
+  fastion
+  Furtinure
   Accessories
   Sports
-  Others
+  othres
 }
