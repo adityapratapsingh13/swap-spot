@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { PlusCircle, Package, Upload } from "lucide-react";
+import UploadImages from "@/components/UploadImages";
 
 interface Product {
   id: string;
@@ -197,7 +198,7 @@ export default function Listing() {
                   Product Image
                 </label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
+                  {/* <div className="space-y-1 text-center">
                     {previewUrl ? (
                       <div className="mb-4">
                         <img
@@ -229,7 +230,9 @@ export default function Listing() {
                     <p className="text-xs text-gray-500">
                       PNG, JPG, GIF up to 10MB
                     </p>
-                  </div>
+                  </div> */}
+
+                  <UploadImages></UploadImages>
                 </div>
               </div>
 
