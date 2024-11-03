@@ -43,9 +43,9 @@ export default function ListProduct() {
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
             <div className="relative h-48 overflow-hidden">
-              {product.image ? (
+              {product.images ? (
                 <CldImage
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   width={400}
                   height={192}

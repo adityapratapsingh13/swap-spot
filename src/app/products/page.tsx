@@ -305,6 +305,7 @@
 import { useState, useEffect } from "react";
 import { PlusCircle, Package } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
+import type { Product } from "@prisma/client";
 
 // Define the Category enum
 export enum Category {
@@ -316,17 +317,17 @@ export enum Category {
   Others = "Others",
 }
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  stock: number;
-  image: string;
-  seller: string;
-  createdAt: string;
-}
+// interface Product {
+//   id: string;
+//   name: string;
+//   description: string;
+//   category: string;
+//   price: number;
+//   stock: number;
+//   images: string[];
+//   seller: string;
+//   createdAt: string;
+// }
 
 export default function Listing() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -491,7 +492,7 @@ export default function Listing() {
                     <CldImage
                       width="300"
                       height="180"
-                      src={imageUrl} // Use the secure URL here for preview
+                      src={imageUrl} 
                       alt="Product preview"
                       className="rounded-md"
                     />
@@ -541,43 +542,46 @@ export default function Listing() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="relative h-48">
-                {product.image && (
-                  <CldImage
-                    src={public_id} // This should be the public_id
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                  />
-                )}
-                <div className="absolute top-2 right-2">
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                    {product.category}
-                  </span>
+          {products.map((product) => {
+            return ((
+              <div
+                key={product.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="relative h-48">
+                  {product.images && (
+                    <CldImage
+                      src={product.images[0]} // This should be the public_id
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                  <div className="absolute top-2 right-2 test">
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                      {product.category}
+                    </span>
+                  </div>
+                </div>
+  
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                    {product.name}
+                  </h2>
+                  <p className="text-gray-600 text-sm mb-3">
+                    {product.description}
+                  </p>
+  
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-2xl font-bold text-gray-800">${product.price}</span>
+                    <span className="text-sm text-gray-600">Stock: {product.stock}</span>
+                  </div>
+                  <p className="text-sm text-gray-500">Seller: {product.seller}</p>
                 </div>
               </div>
+            ))
 
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                  {product.name}
-                </h2>
-                <p className="text-gray-600 text-sm mb-3">
-                  {product.description}
-                </p>
-
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-2xl font-bold text-gray-800">${product.price}</span>
-                  <span className="text-sm text-gray-600">Stock: {product.stock}</span>
-                </div>
-                <p className="text-sm text-gray-500">Seller: {product.seller}</p>
-              </div>
-            </div>
-          ))}
+          })}
         </div>
       </div>
     </div>
