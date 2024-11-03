@@ -1,7 +1,9 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { PlusCircle, Package, Upload } from "lucide-react";
 import UploadImages from "@/components/UploadImages";
+import Image from "next/image";
 
 interface Product {
   id: string;
@@ -38,7 +40,7 @@ export default function Listing() {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      setProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -201,7 +203,7 @@ export default function Listing() {
                   {/* <div className="space-y-1 text-center">
                     {previewUrl ? (
                       <div className="mb-4">
-                        <img
+                        <Image
                           src={previewUrl}
                           alt="Preview"
                           className="mx-auto h-32 w-32 object-cover rounded-md"
@@ -267,11 +269,11 @@ export default function Listing() {
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
               <div className="relative h-48">
-                <img
-                  src={product.images[0]}
+                {/* <Image
+                  src={product?.images[0]}
                   alt={product.name}
                   className="w-full h-full object-cover"
-                />
+                /> */}
                 <div className="absolute top-2 right-2">
                   <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                     {product.category}
@@ -297,8 +299,8 @@ export default function Listing() {
                       product.stock > 10
                         ? "bg-green-100 text-green-800"
                         : product.stock > 0
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800"
                     }`}
                   >
                     {product.stock > 0
