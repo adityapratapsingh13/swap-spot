@@ -10,6 +10,50 @@ if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR);
 }
 
+// export async function POST(request: Request) {
+//   try {
+//     const formData = await request.formData();
+
+//     const name = formData.get("name")?.toString() || "";
+//     const description = formData.get("description")?.toString() || "";
+//     const category = formData.get("category") as Category;
+//     const price = parseFloat(formData.get("price")?.toString() || "0");
+//     const stock = parseInt(formData.get("stock")?.toString() || "0", 10);
+//     const seller = formData.get("seller")?.toString() || "";
+//     const imageFile = formData.get("image") as File;
+
+//     let imagePath = "";
+//     if (imageFile) {
+//       const buffer = Buffer.from(await imageFile.arrayBuffer());
+//       const fileName = `${Date.now()}-${imageFile.name}`;
+//       imagePath = path.join(UPLOAD_DIR, fileName);
+//       fs.writeFileSync(imagePath, buffer);
+//       imagePath = `/uploads/${fileName}`;
+//     }
+
+//     const product = await prisma.product.create({
+//       data: {
+//         name,
+//         description,
+//         category,
+//         price,
+//         stock,
+//         seller,
+//         images: [imagePath],
+//       },
+//     });
+
+//     return NextResponse.json(product);
+//   } catch (error) {
+//     console.error(error);
+//     return NextResponse.json(
+//       { error: `Failed to create product: ${error}` },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -20,15 +64,12 @@ export async function POST(request: Request) {
     const price = parseFloat(formData.get("price")?.toString() || "0");
     const stock = parseInt(formData.get("stock")?.toString() || "0", 10);
     const seller = formData.get("seller")?.toString() || "";
-    const imageFile = formData.get("image") as File;
+    const imageUrl = formData.get("image")?.toString() || "";
 
     let imagePath = "";
-    if (imageFile) {
-      const buffer = Buffer.from(await imageFile.arrayBuffer());
-      const fileName = `${Date.now()}-${imageFile.name}`;
-      imagePath = path.join(UPLOAD_DIR, fileName);
-      fs.writeFileSync(imagePath, buffer);
-      imagePath = `/uploads/${fileName}`;
+    if (imageUrl) {
+      // If imageUrl is coming from Cloudinary, save the URL directly
+      imagePath = imageUrl; // Just use the URL directly
     }
 
     const product = await prisma.product.create({
@@ -39,7 +80,7 @@ export async function POST(request: Request) {
         price,
         stock,
         seller,
-        images: [imagePath],
+        images: [imagePath], // Assuming your DB supports storing images as an array
       },
     });
 

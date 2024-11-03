@@ -1,13 +1,12 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-
-  console.log("Products: ", products);
 
   useEffect(() => {
     fetchProducts();
@@ -44,11 +43,19 @@ export default function ListProduct() {
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
             <div className="relative h-48 overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
-              />
+              {product.image ? (
+                <CldImage
+                  src={product.image}
+                  alt={product.name}
+                  width={400}
+                  height={192}
+                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                  <span className="text-gray-400">No image available</span>
+                </div>
+              )}
             </div>
 
             <div className="p-6">
