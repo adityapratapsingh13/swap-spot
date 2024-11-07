@@ -12,7 +12,7 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
-    picture       String?
+    image         String?
     accounts      Account[]
 }
 
@@ -60,24 +60,22 @@ model Review {
 }
 
 model Chat {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  buyerId   String    @db.ObjectId
-  sellerId  String    @db.ObjectId
-  productId String    @db.ObjectId
-  messages  Message[] @relation("ChatMessages")
-  createdAt DateTime  @default(now())
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    buyerId   String    @db.ObjectId
+    sellerId  String    @db.ObjectId
+    productId String    @db.ObjectId
+    messages  Message[] @relation("ChatMessages")
+    createdAt DateTime  @default(now())
 }
 
 model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  chatId    String   @db.ObjectId
-  senderId  String   @db.ObjectId
-  content   String   @db.String
-  timestamp DateTime @default(now())
-  chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id])
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    chatId    String   @db.ObjectId
+    senderId  String   @db.ObjectId
+    content   String   @db.String
+    timestamp DateTime @default(now())
+    chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id])
 }
-
-
 
 enum Category {
     Electronics

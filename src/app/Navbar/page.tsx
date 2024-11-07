@@ -13,13 +13,20 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false); // New state for mobile detection
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (status === "loading") return;
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -27,7 +34,7 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [router, status]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

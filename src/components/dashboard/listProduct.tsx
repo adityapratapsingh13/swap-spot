@@ -107,10 +107,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { CldImage } from "next-cloudinary";
+import { Search } from "lucide-react";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -128,17 +131,48 @@ export default function ListProduct() {
     setLoading(false);
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Searching for:", query);
+  };
+
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 text-gray-800">Product List</h1>
+        <div className="flex justify-center items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-500"></div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Product List</h1>
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-bold mb-8 text-gray-800">Product List</h1>
+        <div
+          className={`transition-all duration-300 ease-in-out transform mr-6 ${
+            isSearchExpanded ? "w-80 scale-105" : "w-48"
+          }`}
+        >
+          <form onSubmit={handleSearch} className="relative">
+            <input
+              type="text"
+              className="w-full bg-gray-100 text-black rounded-full py-2 pl-10 pr-4 ring-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+              placeholder={
+                isSearchExpanded ? "Search for items..." : "Search..."
+              }
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsSearchExpanded(true)}
+              autoFocus={isSearchExpanded}
+              onBlur={() => setIsSearchExpanded(false)}
+            />
+            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          </form>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products?.map((product) => (
@@ -176,7 +210,7 @@ export default function ListProduct() {
 
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-2xl font-bold text-gray-900">
-                  ₹{product.price.toFixed(2)}
+                    ₹{product.price.toFixed(2)}
                   </span>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium
