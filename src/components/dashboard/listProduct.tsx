@@ -176,7 +176,7 @@ export default function ListProduct() {
 
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-2xl font-bold text-gray-900">
-                    ${product.price.toFixed(2)}
+                  ₹{product.price.toFixed(2)}
                   </span>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium
