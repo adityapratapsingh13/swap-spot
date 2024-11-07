@@ -20,7 +20,7 @@
 
 //   return (
 //     <>
-//       <button 
+//       <button
 //         onClick={() => setIsModalOpen(true)}
 //         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg text-lg font-medium flex items-center justify-center gap-2 transition duration-200"
 //       >
@@ -36,7 +36,7 @@
 //           <div className="bg-white rounded-lg w-full max-w-md">
 //             <div className="p-4 border-b flex justify-between items-center">
 //               <h3 className="text-lg font-semibold">Message to {sellerName}</h3>
-//               <button 
+//               <button
 //                 onClick={() => setIsModalOpen(false)}
 //                 className="text-gray-500 hover:text-gray-700"
 //               >
@@ -78,70 +78,70 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
-// Define a type for the message structure
 interface Message {
   chatId: string;
   senderId: string;
   content: string;
 }
 
-// Define the props type for the Chat component
 interface ChatProps {
   chatId: string;
   userId: string;
 }
 
-const socket = io(); // Initialize the socket connection
+const socket = io();
 
 const Chat: React.FC<ChatProps> = ({ chatId, userId }) => {
-  const [message, setMessage] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]); // Use the Message type for messages state
+  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    // Join the chat room
-    socket.emit('joinChat', chatId);
+    socket.emit("joinChat", chatId);
 
-    // Listen for incoming messages
-    socket.on('receiveMessage', (newMessage: Message) => {
+    socket.on("receiveMessage", (newMessage: Message) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
-    // Clean up the event listener on component unmount
     return () => {
-      socket.off('receiveMessage');
+      socket.off("receiveMessage");
     };
   }, [chatId]);
 
   const sendMessage = async () => {
-    // Create message data object
     const messageData: Message = { chatId, senderId: userId, content: message };
 
-    // Emit the message to the server
-    socket.emit('sendMessage', messageData);
+    socket.emit("sendMessage", messageData);
 
-    // Optionally save message to your database via your API
-    await fetch('/api/messages', {
-      method: 'POST',
+    await fetch("/api/messages", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(messageData),
     });
 
-    // Update local state with the new message
     setMessages((prevMessages) => [...prevMessages, messageData]);
-    setMessage(''); // Clear the input field
+    setMessage("");
   };
 
   return (
     <div className="p-4 border rounded-lg">
       <div className="h-64 overflow-y-scroll mb-4">
         {messages.map((msg, index) => (
-          <div key={index} className={`my-2 ${msg.senderId === userId ? 'text-right' : 'text-left'}`}>
-            <p className={`inline-block p-2 rounded ${msg.senderId === userId ? 'bg-blue-100' : 'bg-gray-200'}`}>
+          <div
+            key={index}
+            className={`my-2 ${
+              msg.senderId === userId ? "text-right" : "text-left"
+            }`}
+          >
+            <p
+              className={`inline-block p-2 rounded ${
+                msg.senderId === userId ? "bg-blue-100" : "bg-gray-200"
+              }`}
+            >
               {msg.content}
             </p>
           </div>
@@ -155,7 +155,10 @@ const Chat: React.FC<ChatProps> = ({ chatId, userId }) => {
           className="border p-2 flex-grow"
           placeholder="Type your message"
         />
-        <button onClick={sendMessage} className="ml-2 bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          onClick={sendMessage}
+          className="ml-2 bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Send
         </button>
       </div>

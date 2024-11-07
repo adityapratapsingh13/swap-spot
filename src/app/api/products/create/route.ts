@@ -53,7 +53,6 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 //   }
 // }
 
-
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -68,8 +67,7 @@ export async function POST(request: Request) {
 
     let imagePath = "";
     if (imageUrl) {
-      // If imageUrl is coming from Cloudinary, save the URL directly
-      imagePath = imageUrl; // Just use the URL directly
+      imagePath = imageUrl;
     }
 
     const product = await prisma.product.create({
@@ -80,7 +78,7 @@ export async function POST(request: Request) {
         price,
         stock,
         seller,
-        images: [imagePath], // Assuming your DB supports storing images as an array
+        images: [imagePath],
       },
     });
 

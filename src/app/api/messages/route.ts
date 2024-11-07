@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const { chatId, senderId, content } = await req.json();
@@ -14,7 +14,10 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(message);
   } catch (error) {
-    console.error('Error sending message:', error);
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+    console.error("Error sending message:", error);
+    return NextResponse.json(
+      { error: "Failed to send message" },
+      { status: 500 }
+    );
   }
 }

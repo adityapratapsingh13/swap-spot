@@ -39,13 +39,12 @@
 //   );
 // };
 
-
 "use client"; // This is a client component
-import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react'; // Import NextAuth session hook
-import { Product } from '@/types/product';
-import { ProductGallery } from '@/components/ProductGallery';
-import ChatButton from '@/components/ChatButton'; // Make sure the path is correct
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react"; // Import NextAuth session hook
+import { Product } from "@/types/product";
+import { ProductGallery } from "@/components/ProductGallery";
+import ChatButton from "@/components/ChatButton"; // Make sure the path is correct
 
 async function getProductById(id: string): Promise<Product | null> {
   const response = await fetch(`http://localhost:3000/api/products/${id}`);
@@ -59,10 +58,9 @@ async function getProductById(id: string): Promise<Product | null> {
 const Page = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [product, setProduct] = useState<Product | null>(null);
-  const { data: session } = useSession(); // Get user session
+  const { data: session } = useSession();
 
-  // Get the current user's ID from the session
-  const userId = session?.user?.id; // Adjust based on your session structure
+  const userId = session?.user?.id;
 
   useEffect(() => {
     async function fetchProduct() {
@@ -93,13 +91,15 @@ const Page = ({ params }: { params: { id: string } }) => {
             <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center">
-                <svg 
-                  className="w-5 h-5 text-yellow-400 fill-current" 
+                <svg
+                  className="w-5 h-5 text-yellow-400 fill-current"
                   viewBox="0 0 20 20"
                 >
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
-                <span className="ml-1 text-sm font-medium">{product.ratings}</span>
+                <span className="ml-1 text-sm font-medium">
+                  {product.ratings}
+                </span>
               </div>
               <span className="px-2 py-1 text-sm bg-gray-100 rounded-full">
                 In Stock: {product.stock}
@@ -120,16 +120,36 @@ const Page = ({ params }: { params: { id: string } }) => {
 
             {/* Seller Info */}
             <div className="flex items-center gap-2 text-gray-600">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
               <span>Seller: {product.seller}</span>
             </div>
 
             {/* Stock Info */}
             <div className="flex items-center gap-2 text-gray-600">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                />
               </svg>
               <span>{product.stock} units available</span>
             </div>
@@ -138,9 +158,15 @@ const Page = ({ params }: { params: { id: string } }) => {
           {/* Chat with Seller Button */}
           <div className="pt-6">
             {userId ? (
-              <ChatButton sellerName={product.seller} chatId={product.id} userId={userId} />
+              <ChatButton
+                sellerName={product.seller}
+                chatId={product.id}
+                userId={userId}
+              />
             ) : (
-              <p className="text-red-500">You need to be logged in to chat with the seller.</p>
+              <p className="text-red-500">
+                You need to be logged in to chat with the seller.
+              </p>
             )}
           </div>
         </div>
