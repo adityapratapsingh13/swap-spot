@@ -306,6 +306,7 @@ import { useState, useEffect } from "react";
 import { PlusCircle, Package } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
 import type { Product } from "@prisma/client";
+import Navbar from "../Navbar/page";
 
 // Define the Category enum
 export enum Category {
@@ -403,7 +404,11 @@ export default function Listing() {
   };
 
   return (
+
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div>
+        <Navbar></Navbar>
+      </div>
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">

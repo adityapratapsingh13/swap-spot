@@ -20,13 +20,13 @@ const Navbar = () => {
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (status === "loading") return;
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-    if (status === "authenticated") {
-      router.push("/dashboard");
-    }
+    // if (status === "loading") return;
+    // if (status === "unauthenticated") {
+    //   router.push("/login");
+    // }
+    // if (status === "authenticated") {
+    //   // router.push("/dashboard");
+    // }
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
