@@ -17,5 +17,6 @@ export interface Product {
     seller: string;
     stock: number;
     ratings: number;
+    
     createdAt: string;
 }

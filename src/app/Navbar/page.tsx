@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
+
+
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -18,6 +20,12 @@ const Navbar = () => {
     const { data: session } = useSession();
     const pathname = usePathname();
     const profileRef = useRef<HTMLDivElement>(null);
+
+
+    const navigateToListProduct = () => {
+        console.log("Button clicked, navigating to Dashboard");
+        router.push("/products");
+    };
 
     // Monitor screen size to determine if mobile
     useEffect(() => {
@@ -109,7 +117,7 @@ const Navbar = () => {
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-8">
                             <NavLink href="/deals">Deals</NavLink>
-                            <NavLink href="/whats-new">ListProduct</NavLink>
+                            <NavLink href="/products">ListProduct</NavLink>
                             <NavLink href="/">ChatBox</NavLink>
 
                             {/* Categories Dropdown */}
