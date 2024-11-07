@@ -372,8 +372,8 @@ export default function Listing() {
     formData.append("price", productData.price.toString());
     formData.append("stock", productData.stock.toString());
     formData.append("seller", productData.seller);
-    formData.append("image", imagePublicId); 
-    formData.append("url", imageUrl); 
+    formData.append("image", imagePublicId);
+    formData.append("url", imageUrl);
 
     try {
       const response = await fetch("/api/products/create", {
@@ -419,10 +419,10 @@ export default function Listing() {
 
         {isFormOpen && (
           <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">Add New Product</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Product</h2>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Product Name</label>
+                <label className="text-sm font-medium text-gray-800">Product Name</label>
                 <input
                   type="text"
                   name="name"
@@ -434,12 +434,12 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Category</label>
+                <label className="text-sm font-medium text-gray-800">Category</label>
                 <select
                   name="category"
                   value={productData.category}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 text-gray-800 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select a category</option>
                   {Object.values(Category).map((category) => (
@@ -451,7 +451,7 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-700">Description</label>
+                <label className="text-sm font-medium text-gray-800">Description</label>
                 <input
                   type="text"
                   name="description"
@@ -475,7 +475,7 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Stock</label>
+                <label className="text-sm font-medium  text-gray-800">Stock</label>
                 <input
                   type="number"
                   name="stock"
@@ -487,13 +487,13 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-700">Product Image</label>
+                <label className="text-sm font-medium text-gray-800">Product Image</label>
                 <div className="mt-1 flex flex-col items-center gap-4 px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   {imageUrl && (
                     <CldImage
                       width="300"
                       height="180"
-                      src={imageUrl} 
+                      src={imageUrl}
                       alt="Product preview"
                       className="rounded-md"
                     />
@@ -522,7 +522,7 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-700">Seller</label>
+                <label className="text-sm font-medium text-gray-800">Seller</label>
                 <input
                   type="text"
                   name="seller"
@@ -565,7 +565,7 @@ export default function Listing() {
                     </span>
                   </div>
                 </div>
-  
+
                 <div className="p-4">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
                     {product.name}
@@ -573,7 +573,7 @@ export default function Listing() {
                   <p className="text-gray-600 text-sm mb-3">
                     {product.description}
                   </p>
-  
+
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-2xl font-bold text-gray-800">₹{product.price}</span>
                     <span className="text-sm text-gray-600">Stock: {product.stock}</span>
