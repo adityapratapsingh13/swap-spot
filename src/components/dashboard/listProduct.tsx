@@ -170,9 +170,9 @@ export default function ListProduct() {
                   </span>
                 </div>
 
-                <p className="text-gray-600 mb-4 line-clamp-2">
+                {/* <p className="text-gray-600 mb-4 line-clamp-2">
                   {product.description}
-                </p>
+                </p> */}
 
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-2xl font-bold text-gray-900">

@@ -10,7 +10,7 @@ const MiddlePart = () => {
   const router = useRouter();
 
   const navigateToListProduct = () => {
-    console.log("Button clicked, navigating to Dashboard");
+    // console.log("Button clicked, navigating to Dashboard");
     router.push("/products");
   };
 
