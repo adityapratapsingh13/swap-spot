@@ -103,7 +103,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
-                Swap_Spot
+                Swap Spot
               </h1>
             </Link>
 
