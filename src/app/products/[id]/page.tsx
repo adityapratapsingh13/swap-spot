@@ -58,18 +58,21 @@ async function getProductById(id: string): Promise<Product | null> {
 const Page = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [product, setProduct] = useState<Product | null>(null);
-  const { data: session } = useSession();
-
-  const userId = session?.user?.id;
+  const [userId, setUserId] = useState<string | null>(null);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     async function fetchProduct() {
       const fetchedProduct = await getProductById(id);
       setProduct(fetchedProduct);
     }
-
     fetchProduct();
-  }, [id]);
+
+    if (status === "loading") return;
+    if (status === "authenticated" && session && session.user) {
+      setUserId(session.user.id);
+    }
+  }, [id, session, status]);
 
   if (!product) {
     return (

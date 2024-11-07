@@ -24,6 +24,8 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             src={selectedImage}
             alt={`${productName} - Main Image`}
             className="object-cover w-full h-full"
+            width={800}
+            height={800}
           />
         </div>
       </div>
@@ -45,6 +47,8 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
               src={image}
               alt={`Thumbnail ${index + 1}`}
               className="object-cover w-full h-full hover:opacity-80 transition"
+              width={200}
+              height={200}
             />
           </div>
         ))}
