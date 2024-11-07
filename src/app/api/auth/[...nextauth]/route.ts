@@ -12,34 +12,50 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ account, profile }) {
-      if (account?.provider === "google") {
+    async signIn({ user, account }) {
+      if (account?.provider === "google" && user.email) {
         const existingUser = await prisma.user.findUnique({
-          where: { email: profile?.email },
+          where: { email: user.email },
         });
-        if (existingUser) {
-          console.log("user already exists");
-        } else {
-          await prisma.user.create({
+
+        if (!existingUser) {
+          const newUser = await prisma.user.create({
             data: {
-              name: profile?.name,
-              email: profile?.email,
-              picture: profile?.picture,
+              name: user.name,
+              email: user.email,
+              image: user.image,
             },
           });
+          user.id = newUser.id;
+        } else {
+          user.id = existingUser.id;
         }
-        if (profile) return true;
-        else return false;
-      }
 
+        return true;
+      }
       return false;
     },
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) {
-        return url;
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.id;
       }
-      return "/dashboard";
+      return token;
     },
+
+    async session({ session, token }) {
+      if (token?.userId) {
+        session.user = {
+          ...session.user,
+          id: token.userId,
+        };
+      }
+      return session;
+    },
+
+    // async redirect({ url, baseUrl }) {
+    //   return url.startsWith(baseUrl) ? url : `${baseUrl}/dashboard`;
+    // },
   },
 };
 

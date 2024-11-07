@@ -357,7 +357,9 @@ export default function Listing() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
   };
@@ -406,7 +408,9 @@ export default function Listing() {
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">
             <Package className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Product Listing</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Product Listing
+            </h1>
           </div>
           <button
             onClick={() => setIsFormOpen(!isFormOpen)}
@@ -419,10 +423,17 @@ export default function Listing() {
 
         {isFormOpen && (
           <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Product</h2>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Add New Product
+            </h2>
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-800">Product Name</label>
+                <label className="text-sm font-medium text-gray-800">
+                  Product Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -434,7 +445,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-800">Category</label>
+                <label className="text-sm font-medium text-gray-800">
+                  Category
+                </label>
                 <select
                   name="category"
                   value={productData.category}
@@ -451,7 +464,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-800">Description</label>
+                <label className="text-sm font-medium text-gray-800">
+                  Description
+                </label>
                 <input
                   type="text"
                   name="description"
@@ -463,7 +478,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Price (₹)</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Price (₹)
+                </label>
                 <input
                   type="number"
                   name="price"
@@ -475,7 +492,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium  text-gray-800">Stock</label>
+                <label className="text-sm font-medium  text-gray-800">
+                  Stock
+                </label>
                 <input
                   type="number"
                   name="stock"
@@ -487,7 +506,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-800">Product Image</label>
+                <label className="text-sm font-medium text-gray-800">
+                  Product Image
+                </label>
                 <div className="mt-1 flex flex-col items-center gap-4 px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   {imageUrl && (
                     <CldImage
@@ -522,7 +543,9 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1 md:col-span-2">
-                <label className="text-sm font-medium text-gray-800">Seller</label>
+                <label className="text-sm font-medium text-gray-800">
+                  Seller
+                </label>
                 <input
                   type="text"
                   name="seller"
@@ -545,7 +568,7 @@ export default function Listing() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => {
-            return ((
+            return (
               <div
                 key={product.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
@@ -575,14 +598,19 @@ export default function Listing() {
                   </p>
 
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-2xl font-bold text-gray-800">₹{product.price}</span>
-                    <span className="text-sm text-gray-600">Stock: {product.stock}</span>
+                    <span className="text-2xl font-bold text-gray-800">
+                      ₹{product.price}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      Stock: {product.stock}
+                    </span>
                   </div>
-                  <p className="text-sm text-gray-500">Seller: {product.seller}</p>
+                  <p className="text-sm text-gray-500">
+                    Seller: {product.seller}
+                  </p>
                 </div>
               </div>
-            ))
-
+            );
           })}
         </div>
       </div>
