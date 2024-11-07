@@ -106,7 +106,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
             <p className="text-4xl font-bold text-blue-600">
-              ${product.price.toFixed(2)}
+              ₹{product.price.toFixed(2)}
             </p>
           </div>
 

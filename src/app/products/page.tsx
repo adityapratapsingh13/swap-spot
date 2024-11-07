@@ -150,7 +150,7 @@
 
 //               <div className="space-y-1">
 //                 <label className="text-sm font-medium text-gray-700">
-//                   Price ($)
+//                   Price (₹)
 //                 </label>
 //                 <input
 //                   type="number"
@@ -271,11 +271,11 @@
 
 //                 <div className="flex justify-between items-center mb-3">
 //                   <span className="text-2xl font-bold text-gray-900">
-//                     ${product.price.toFixed(2)}
+//                     ₹{product.price.toFixed(2)}
 //                   </span>
 //                   <span
 //                     className={`px-2 py-1 rounded-full text-xs font-medium
-//                     ${
+//                     ₹{
 //                       product.stock > 10
 //                         ? "bg-green-100 text-green-800"
 //                         : product.stock > 0
@@ -284,7 +284,7 @@
 //                     }`}
 //                   >
 //                     {product.stock > 0
-//                       ? `${product.stock} in stock`
+//                       ? `₹{product.stock} in stock`
 //                       : "Out of stock"}
 //                   </span>
 //                 </div>
@@ -463,7 +463,7 @@ export default function Listing() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Price ($)</label>
+                <label className="text-sm font-medium text-gray-700">Price (₹)</label>
                 <input
                   type="number"
                   name="price"
@@ -575,7 +575,7 @@ export default function Listing() {
                   </p>
   
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-2xl font-bold text-gray-800">${product.price}</span>
+                    <span className="text-2xl font-bold text-gray-800">₹{product.price}</span>
                     <span className="text-sm text-gray-600">Stock: {product.stock}</span>
                   </div>
                   <p className="text-sm text-gray-500">Seller: {product.seller}</p>
