@@ -372,7 +372,8 @@ export default function Listing() {
     formData.append("price", productData.price.toString());
     formData.append("stock", productData.stock.toString());
     formData.append("seller", productData.seller);
-    formData.append("image", imagePublicId); // Send the public_id instead of URL
+    formData.append("image", imagePublicId); 
+    formData.append("url", imageUrl); 
 
     try {
       const response = await fetch("/api/products/create", {
@@ -500,6 +501,7 @@ export default function Listing() {
                   <CldUploadWidget
                     uploadPreset="pvknlh5s"
                     onSuccess={(result: any) => {
+                      console.log(result);
                       if (result.info) {
                         setImageUrl(result.info.secure_url);
                         setImagePublicId(result.info.public_id); // Store the public_id

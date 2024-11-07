@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     const price = parseFloat(formData.get("price")?.toString() || "0");
     const stock = parseInt(formData.get("stock")?.toString() || "0", 10);
     const seller = formData.get("seller")?.toString() || "";
-    const imageUrl = formData.get("image")?.toString() || "";
+    const imageUrl = formData.get("url")?.toString() || "";
 
     let imagePath = "";
     if (imageUrl) {
