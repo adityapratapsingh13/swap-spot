@@ -13,7 +13,7 @@ export default function Home() {
     if (status === "loading") return;
     if (status === "unauthenticated" || !session) router.push("/login");
     if (session && session.user) router.push("/dashboard");
-  }, [status, router]);
+  }, [status, router, session]);
 
   if (!session) return <>Loading</>;
 

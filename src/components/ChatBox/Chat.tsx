@@ -89,7 +89,6 @@
 // };
 
 // export default Chat;
-
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
@@ -118,6 +117,16 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Add the introductory message
+    const introductoryMessage: Message = {
+      chatId,
+      senderId: "seller", // Use a unique ID for the seller
+      content: `Hello! Here are my details:\n\n- Name: ${sellerName}\n- Phone: +123-456-7890\n- Product: Sample Product\n- Price: $99.99`,
+      timestamp: Date.now(),
+    };
+
+    setMessages([introductoryMessage]); // Set the initial message state
+
     socket.emit("joinChat", chatId);
 
     socket.on("receiveMessage", (newMessage: Message) => {
@@ -127,7 +136,7 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
     return () => {
       socket.off("receiveMessage");
     };
-  }, [chatId]);
+  }, [chatId, sellerName]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

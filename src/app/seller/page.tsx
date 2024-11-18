@@ -3,14 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {
-  ArrowLeft,
-  PlusCircle,
-  Save,
-  X,
-  Camera,
-  AlertCircle,
-} from "lucide-react";
+import { ArrowLeft, Save, X, Camera, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/seller/Produt_detail";
 
 interface Product {
@@ -100,6 +93,8 @@ const ProductForm = () => {
         expirationDate: "",
       });
     } catch (err) {
+      console.log(err);
+
       setError("An error occurred while submitting the form.");
     } finally {
       setLoading(false);

@@ -109,11 +109,11 @@ const LoginPage = () => {
             {/* Description */}
             <div className="text-center px-4 sm:px-8">
               <p className="text-gray-200 text-sm sm:text-base leading-relaxed backdrop-blur-sm bg-white/5 p-4 sm:p-6 rounded-xl shadow-lg">
-                Got something you no longer need? Whether it's an old gadget,
-                furniture, or anything in between, we make it easy to sell your
-                pre-loved items. Turn your unwanted stuff into extra cash—quick,
-                safe, and simple. Post your items today and connect with buyers
-                who are ready to give them a new home!
+                Got something you no longer need? Whether it{"'"}s an old
+                gadget, furniture, or anything in between, we make it easy to
+                sell your pre-loved items. Turn your unwanted stuff into extra
+                cash—quick, safe, and simple. Post your items today and connect
+                with buyers who are ready to give them a new home!
               </p>
             </div>
           </div>

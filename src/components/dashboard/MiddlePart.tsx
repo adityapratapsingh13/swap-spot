@@ -169,7 +169,7 @@ const MiddlePart = () => {
                 List Your Product
               </motion.button>
               <span className="text-gray-500 text-sm">
-                It's quick and easy!
+              It{"'"}s quick and easy!
               </span>
             </div>
           </div>
