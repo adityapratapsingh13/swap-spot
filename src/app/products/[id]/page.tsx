@@ -204,7 +204,7 @@ interface Product {
 }
 
 async function getProductById(id: string): Promise<Product | null> {
-  const response = await fetch(`http://localhost:3000/api/products/get/${id}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/${id}`);
   if (!response.ok) {
     return null;
   }
