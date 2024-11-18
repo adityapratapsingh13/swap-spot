@@ -525,11 +525,14 @@ export default function Listing() {
                   )}
                   <CldUploadWidget
                     uploadPreset="pvknlh5s"
-                    onSuccess={(result: any) => {
+                    onSuccess={(result) => {
                       console.log(result);
-                      if (result.info) {
+                      if (
+                        typeof result.info !== "string" &&
+                        result?.info?.secure_url
+                      ) {
                         setImageUrl(result.info.secure_url);
-                        setImagePublicId(result.info.public_id); // Store the public_id
+                        setImagePublicId(result.info.public_id);
                       }
                     }}
                   >

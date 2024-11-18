@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["cloudinary", "lucide", "Rocher", "Zustand"]
+  "cSpell.words": [
+    "cloudinary",
+    "lucide",
+    "Rocher",
+    "signin",
+    "turbopack",
+    "Zustand"
+  ]
 }

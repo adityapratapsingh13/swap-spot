@@ -186,13 +186,7 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Star,
-  MessageCircle,
-  Package,
-  User,
-  X,
-} from "lucide-react";
+import { Star, MessageCircle, Package, User, X } from "lucide-react";
 
 import { ProductGallery } from "@/components/ProductGallery";
 import Navbar from "@/app/Navbar/page";
@@ -210,7 +204,7 @@ interface Product {
 }
 
 async function getProductById(id: string): Promise<Product | null> {
-  const response = await fetch(`http://localhost:3000/api/products/${id}`);
+  const response = await fetch(`http://localhost:3000/api/products/get/${id}`);
   if (!response.ok) {
     return null;
   }
