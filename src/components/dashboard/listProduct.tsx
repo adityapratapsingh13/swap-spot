@@ -50,6 +50,8 @@ export default function ListProduct() {
     console.log("Searching for:", query);
   };
 
+  console.log("filteredProducts", filteredProducts);
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
