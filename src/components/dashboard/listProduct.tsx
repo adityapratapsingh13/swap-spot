@@ -44,12 +44,17 @@ export default function ListProduct() {
   const [query, setQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
+  console.log("D1");
+
   useEffect(() => {
     debug("Component mounted");
     fetchProducts();
   }, []);
 
+  console.log("D2");
+
   useEffect(() => {
+    debug("Effect triggered", { query, productsLength: products.length });
     debug("Query or products changed", {
       query,
       productsCount: products.length,
@@ -71,6 +76,8 @@ export default function ListProduct() {
       filteredCount: filteredProducts.length,
     });
   }, [query, products, filteredProducts]);
+
+  console.log("D4");
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -96,18 +103,23 @@ export default function ListProduct() {
       setLoading(false);
     }
   };
+  console.log("D5");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     debug("Search submitted", { query });
   };
 
-  debug("Rendering component", {
-    productsCount: products.length,
-    filteredCount: filteredProducts.length,
+  console.log("D6");
+
+  debug("Before render", {
+    productsLength: products.length,
+    filteredProductsLength: filteredProducts.length,
     loading,
     isSearchExpanded,
   });
+
+  console.log("D7");
 
   try {
     if (loading) {
@@ -122,6 +134,8 @@ export default function ListProduct() {
         </div>
       );
     }
+
+    console.log("In try D8");
 
     return (
       <ErrorBoundary errorComponent={undefined}>
@@ -227,6 +241,7 @@ export default function ListProduct() {
       </ErrorBoundary>
     );
   } catch (error) {
+    console.log("In catch D9");
     console.error("Render error:", error);
     return (
       <div className="container mx-auto px-4 py-8">
