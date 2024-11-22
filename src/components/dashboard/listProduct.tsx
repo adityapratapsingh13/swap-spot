@@ -5,6 +5,11 @@ import { Product } from "@/types/product";
 import { CldImage } from "next-cloudinary";
 import { Search } from "lucide-react";
 
+// Add a debug function
+const debug = (message: string, data?: unknown) => {
+  console.log(`[DEBUG] ${message}`, data);
+};
+
 export default function ListProduct() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -13,10 +18,15 @@ export default function ListProduct() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    debug("Component mounted");
     fetchProducts();
   }, []);
 
   useEffect(() => {
+    debug("Query or products changed", {
+      query,
+      productsCount: products.length,
+    });
     if (query) {
       const lowerQuery = query.toLowerCase();
       setFilteredProducts(
@@ -30,27 +40,43 @@ export default function ListProduct() {
     } else {
       setFilteredProducts(products);
     }
-  }, [query, products]);
+    debug("Filtered products updated", {
+      filteredCount: filteredProducts.length,
+    });
+  }, [query, products, filteredProducts]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
+      debug("Fetching products");
       const res = await fetch("/api/products");
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
+      debug("Products fetched successfully", { count: data.length });
       setProducts(data);
       setFilteredProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
+      // Add a user-friendly error message
+      setProducts([]);
+      setFilteredProducts([]);
     }
     setLoading(false);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Searching for:", query);
+    debug("Search submitted", { query });
   };
 
-  console.log("filteredProducts", filteredProducts);
+  debug("Rendering component", {
+    productsCount: products.length,
+    filteredCount: filteredProducts.length,
+    loading,
+    isSearchExpanded,
+  });
 
   if (loading) {
     return (
@@ -93,13 +119,17 @@ export default function ListProduct() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts &&
-            filteredProducts?.map((product) => (
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-xl text-gray-600">No products found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                   <div className="relative h-48 overflow-hidden">
-                    {product.images ? (
+                    {product.images && product.images.length > 0 ? (
                       <CldImage
                         src={product.images[0]}
                         alt={product.name}
@@ -154,7 +184,8 @@ export default function ListProduct() {
                 </div>
               </Link>
             ))}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
