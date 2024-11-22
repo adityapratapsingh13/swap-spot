@@ -195,7 +195,7 @@ import type { Product } from "@prisma/client";
 async function getProductById(id: string): Promise<Product | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products/single`,
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/single`,
       {
         method: "POST",
         headers: {
