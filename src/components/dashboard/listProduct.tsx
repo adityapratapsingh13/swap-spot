@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Product } from "@/types/product";
 import { Search } from "lucide-react";
 import { ErrorBoundaryProps } from "next/dist/client/components/error-boundary";
+import Image from "next/image";
 
 // Add a debug function
 const debug = (message: string, data?: unknown) => {
@@ -178,14 +179,17 @@ export default function ListProduct() {
                   filteredProducts?.map((product) => (
                     <Link href={`/products/${product?.id}`} key={product?.id}>
                       <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer">
-                        {/* <div className="relative h-48 overflow-hidden">
+                        <div className="relative h-48 overflow-hidden">
                           {product.images && product.images.length > 0 ? (
-                            <CldImage
+                            <Image
                               src={product.images[0]}
                               alt={product.name}
                               width={400}
                               height={192}
                               className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                e.currentTarget.src = "/bg.png";
+                              }}
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center bg-gray-100">
@@ -194,7 +198,7 @@ export default function ListProduct() {
                               </span>
                             </div>
                           )}
-                        </div> */}
+                        </div>
 
                         <div className="p-6">
                           <div className="flex justify-between items-start mb-4">
