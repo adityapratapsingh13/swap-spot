@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function GET(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get("id");
+export async function GET() {
+  return NextResponse.json({
+    msg: "Hi",
+  });
+}
 
-  if (!id) {
-    return NextResponse.json(
-      { message: "Product ID is required" },
-      { status: 400 }
-    );
-  }
+export async function POST(req: NextRequest) {
+  const { id } = await req.json();
 
   try {
     const product = await prisma.product.findUnique({
