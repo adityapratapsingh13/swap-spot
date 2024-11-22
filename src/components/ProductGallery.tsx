@@ -17,7 +17,6 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Main Image */}
       <div className="relative bg-white rounded-lg shadow">
         <div className="aspect-square overflow-hidden rounded-lg">
           <Image
@@ -30,7 +29,6 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
         </div>
       </div>
 
-      {/* Thumbnail Grid */}
       <div className="grid grid-cols-4 gap-2">
         {images.map((image, index) => (
           <div

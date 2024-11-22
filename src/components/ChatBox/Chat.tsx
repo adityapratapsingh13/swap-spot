@@ -117,15 +117,14 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Add the introductory message
     const introductoryMessage: Message = {
       chatId,
-      senderId: "seller", // Use a unique ID for the seller
+      senderId: "seller",
       content: `Hello! Here are my details:\n\n- Name: ${sellerName}\n- Phone: +123-456-7890\n- Product: Sample Product\n- Price: $99.99`,
       timestamp: Date.now(),
     };
 
-    setMessages([introductoryMessage]); // Set the initial message state
+    setMessages([introductoryMessage]);
 
     socket.emit("joinChat", chatId);
 

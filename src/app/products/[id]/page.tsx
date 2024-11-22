@@ -187,51 +187,57 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, MessageCircle, Package, User, X } from "lucide-react";
-
 import { ProductGallery } from "@/components/ProductGallery";
 import Navbar from "@/app/Navbar/page";
 import Chat from "@/components/ChatBox/Chat";
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  ratings: number;
-  stock: number;
-  seller: string;
-  images: string[];
-}
+import type { Product } from "@prisma/client";
 
 async function getProductById(id: string): Promise<Product | null> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products/get/${id}`
-  );
-  if (!response.ok) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products/get/${id}`
+    );
+    if (!response.ok) {
+      console.error(`Failed to fetch product. Status: ${response.status}`);
+      return null;
+    }
+    const product = await response.json();
+    return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
     return null;
   }
-  const product: Product = await response.json();
-  return product;
 }
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [showChat, setShowChat] = useState(false);
   const { data: session, status } = useSession();
 
   useEffect(() => {
     async function fetchProduct() {
+      setLoading(true);
       const fetchedProduct = await getProductById(id);
       setProduct(fetchedProduct);
+      setLoading(false);
     }
     fetchProduct();
   }, [id]);
 
-  if (!product) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p className="text-xl text-gray-500">Loading product...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-red-500">Product not found</p>
       </div>
     );
   }
@@ -241,7 +247,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
-          {/* Left column */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -253,7 +258,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             />
           </motion.div>
 
-          {/* Right column */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -336,7 +340,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* Chat overlay */}
       <AnimatePresence>
         {showChat && status === "authenticated" && session?.user && (
           <motion.div
