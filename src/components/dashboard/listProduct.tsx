@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+// import Link from "next/link";
+// import { CldImage } from "next-cloudinary";
 import { Product } from "@/types/product";
-import { CldImage } from "next-cloudinary";
 import { Search } from "lucide-react";
 import { ErrorBoundaryProps } from "next/dist/client/components/error-boundary";
 
@@ -168,14 +168,14 @@ export default function ListProduct() {
               </div>
             </div>
 
-            {filteredProducts && filteredProducts?.length === 0 ? (
+            {/* {filteredProducts && filteredProducts?.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-xl text-gray-600">No products found.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts &&
-                  filteredProducts.map((product) => (
+                  filteredProducts?.map((product) => (
                     <Link href={`/products/${product.id}`} key={product.id}>
                       <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                         <div className="relative h-48 overflow-hidden">
@@ -235,7 +235,7 @@ export default function ListProduct() {
                     </Link>
                   ))}
               </div>
-            )}
+            )} */}
           </div>
         </section>
       </ErrorBoundary>
