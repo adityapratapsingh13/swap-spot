@@ -330,6 +330,15 @@ export enum Category {
 //   createdAt: string;
 // }
 
+import Razorpay from "razorpay";
+import Script from "next/script";
+
+declare global {
+  interface Window {
+    Razorpay: Razorpay;
+  }
+}
+
 export default function Listing() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -366,6 +375,8 @@ export default function Listing() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    handlePayment(e);
+
     e.preventDefault();
 
     const formData = new FormData();
@@ -403,8 +414,68 @@ export default function Listing() {
     }
   };
 
+  const handlePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const amount = 59;
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+      amount: amount * 100,
+      currency: "INR",
+      name: "Sarthak",
+      description: "Product Listing",
+      order_id: "",
+      prefill: {
+        name: "Sarthak",
+        email: "sarthakspg@gmail.com",
+        contact: "9876543210",
+      },
+      theme: {
+        color: "#6d28d9",
+      },
+    };
+
+    try {
+      // @ts-expect-error Razorpay is not defined
+      const rzp = new window.Razorpay({
+        ...options,
+        modal: {
+          ondismiss: function () {
+            if (confirm("Do you want to cancel the payment?")) {
+              console.log("Checkout form closed by the user");
+            } else {
+              console.log("Complete the Payment");
+            }
+          },
+        },
+      });
+      rzp.on(
+        "payment.failed",
+        function (response: {
+          error: {
+            code: string;
+            description: string;
+            source: string;
+            step: string;
+            reason: string;
+            metadata: { order_id: string; payment_id: string };
+          };
+        }) {
+          if (response) {
+            console.log("Payment failed");
+          }
+        }
+      );
+      rzp.open();
+      e.preventDefault();
+    } catch (error) {
+      console.error("Payment Failed", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div>
         <Navbar></Navbar>
       </div>
