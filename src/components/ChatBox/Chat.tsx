@@ -109,7 +109,8 @@ interface ChatProps {
   sellerName: string;
 }
 
-const socket = io();
+const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
+const socket = socketUrl ? io(socketUrl) : null;
 
 export default function Chat({ chatId, userId, sellerName }: ChatProps) {
   const [message, setMessage] = useState<string>("");
@@ -126,6 +127,10 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
 
     setMessages([introductoryMessage]);
 
+    if (!socket) {
+      return;
+    }
+
     socket.emit("joinChat", chatId);
 
     socket.on("receiveMessage", (newMessage: Message) => {
@@ -134,6 +139,7 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
 
     return () => {
       socket.off("receiveMessage");
+      socket.disconnect();
     };
   }, [chatId, sellerName]);
 
@@ -151,7 +157,7 @@ export default function Chat({ chatId, userId, sellerName }: ChatProps) {
       timestamp: Date.now(),
     };
 
-    socket.emit("sendMessage", messageData);
+    socket?.emit("sendMessage", messageData);
 
     await fetch("/api/messages", {
       method: "POST",

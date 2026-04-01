@@ -3,6 +3,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
+import bgPlaceholder from "@/assets/bg.png";
 
 interface ProductGalleryProps {
   images: string[];
@@ -13,27 +14,32 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
   images,
   productName,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const validImages = images.filter((image) => image.trim().length > 0);
+  const [selectedImage, setSelectedImage] = useState<string | typeof bgPlaceholder>(
+    validImages[0] ?? bgPlaceholder
+  );
 
   return (
     <div className="space-y-4">
       <div className="relative bg-white rounded-lg shadow">
-        <div className="aspect-square overflow-hidden rounded-lg">
+        <div className="relative aspect-square overflow-hidden rounded-lg">
           <Image
             src={selectedImage}
             alt={`${productName} - Main Image`}
-            className="object-cover w-full h-full"
-            width={800}
-            height={800}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+            onError={() => setSelectedImage(bgPlaceholder)}
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-2">
-        {images.map((image, index) => (
+      {validImages.length > 1 && (
+        <div className="grid grid-cols-4 gap-2">
+          {validImages.map((image, index) => (
           <div
             key={index}
-            className={`aspect-square overflow-hidden rounded-md border-2 cursor-pointer transition
+            className={`relative aspect-square overflow-hidden rounded-md border-2 cursor-pointer transition
                 ${
                   selectedImage === image
                     ? "border-blue-500"
@@ -44,13 +50,14 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             <Image
               src={image}
               alt={`Thumbnail ${index + 1}`}
-              className="object-cover w-full h-full hover:opacity-80 transition"
-              width={200}
-              height={200}
+              fill
+              sizes="25vw"
+              className="object-cover hover:opacity-80 transition"
             />
           </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

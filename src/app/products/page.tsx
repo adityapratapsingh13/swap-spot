@@ -5,6 +5,7 @@ import { PlusCircle, Package } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
 import type { Product } from "@prisma/client";
 import Navbar from "../Navbar/page";
+import bgPlaceholder from "@/assets/bg.png";
 
 import Razorpay from "razorpay";
 import Script from "next/script";
@@ -30,6 +31,9 @@ export default function Listing() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [imagePublicId, setImagePublicId] = useState("");
+  const cloudinaryUploadPreset =
+    process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "pvknlh5s";
+  const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID?.trim();
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -61,8 +65,11 @@ export default function Listing() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    handlePayment(e);
     e.preventDefault();
+
+    if (razorpayKey) {
+      await handlePayment();
+    }
 
     const formData = new FormData();
     formData.append("name", productData.name);
@@ -99,12 +106,17 @@ export default function Listing() {
     }
   };
 
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePayment = async () => {
+    if (!razorpayKey) {
+      console.warn(
+        "Skipping Razorpay checkout because NEXT_PUBLIC_RAZORPAY_KEY_ID is not configured."
+      );
+      return false;
+    }
 
     const amount = 59;
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+      key: razorpayKey,
       amount: amount * 100,
       currency: "INR",
       name: "Sarthak",
@@ -152,9 +164,10 @@ export default function Listing() {
         }
       );
       rzp.open();
-      e.preventDefault();
+      return true;
     } catch (error) {
       console.error("Payment Failed", error);
+      return false;
     }
   };
 
@@ -280,7 +293,7 @@ export default function Listing() {
                     />
                   )}
                   <CldUploadWidget
-                    uploadPreset="pvknlh5s"
+                    uploadPreset={cloudinaryUploadPreset}
                     onSuccess={(result) => {
                       console.log(result);
                       if (
@@ -336,23 +349,22 @@ export default function Listing() {
                 key={product.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
-                <div className="relative h-48">
-                  {product.images && product.images.length > 0 ? (
-                    <Image
-                      src={product.images[0]}
-                      alt={product.name}
-                      width={400}
-                      height={192}
-                      className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.currentTarget.src = "/bg.png";
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <span className="text-gray-400">No image available</span>
-                    </div>
-                  )}
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={
+                      product.images?.find((image) => image.trim()) ??
+                      bgPlaceholder
+                    }
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover object-center transform hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      if (e.currentTarget.src !== bgPlaceholder.src) {
+                        e.currentTarget.src = bgPlaceholder.src;
+                      }
+                    }}
+                  />
                   <div className="absolute top-2 right-2 test">
                     <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                       {product.category}

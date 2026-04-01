@@ -190,21 +190,18 @@ import { Star, MessageCircle, Package, User, X } from "lucide-react";
 import { ProductGallery } from "@/components/ProductGallery";
 import Navbar from "@/app/Navbar/page";
 import Chat from "@/components/ChatBox/Chat";
+import { useParams } from "next/navigation";
 import type { Product } from "@prisma/client";
 
 async function getProductById(id: string): Promise<Product | null> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/single`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "no-cors",
-        body: JSON.stringify({ id }),
-      }
-    );
+    const response = await fetch("/api/single", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
 
     if (!response.ok) {
       console.error(`Failed to fetch product. Status: ${response.status}`);
@@ -218,8 +215,9 @@ async function getProductById(id: string): Promise<Product | null> {
   }
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function ProductPage() {
+  const params = useParams<{ id?: string | string[] }>();
+  const id = Array.isArray(params?.id) ? params.id[0] : params?.id ?? "";
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [showChat, setShowChat] = useState(false);

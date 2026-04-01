@@ -78,7 +78,7 @@ export async function POST(request: Request) {
         price,
         stock,
         seller,
-        images: [imagePath],
+        images: imagePath ? [imagePath] : [],
       },
     });
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Product } from "@/types/product";
 import { Search } from "lucide-react";
 import Image from "next/image";
+import bgPlaceholder from "@/assets/bg.png";
 
 export default function ListProduct() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -37,12 +38,10 @@ export default function ListProduct() {
     setLoading(true);
     try {
       const res = await fetch("/api/products");
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
       const data = await res.json();
-      setProducts(data);
-      setFilteredProducts(data);
+      const nextProducts = Array.isArray(data) ? data : [];
+      setProducts(nextProducts);
+      setFilteredProducts(nextProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
       setProducts([]);
@@ -111,24 +110,21 @@ export default function ListProduct() {
                   <Link href={`/products/${product?.id}`} key={product?.id}>
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                       <div className="relative h-48 overflow-hidden">
-                        {product.images && product.images.length > 0 ? (
-                          <Image
-                            src={product.images[0]}
-                            alt={product.name}
-                            width={400}
-                            height={192}
-                            className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
-                            onError={(e) => {
-                              e.currentTarget.src = "/bg.png";
-                            }}
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                            <span className="text-gray-400">
-                              No image available
-                            </span>
-                          </div>
-                        )}
+                        <Image
+                          src={
+                            product.images?.find((image) => image.trim()) ??
+                            bgPlaceholder
+                          }
+                          alt={product.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover object-center transform hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            if (e.currentTarget.src !== bgPlaceholder.src) {
+                              e.currentTarget.src = bgPlaceholder.src;
+                            }
+                          }}
+                        />
                       </div>
                       <div className="p-6">
                         <div className="flex justify-between items-start mb-4">
