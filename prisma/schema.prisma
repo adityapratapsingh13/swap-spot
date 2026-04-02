@@ -84,4 +84,4 @@ enum Category {
     Accessories
     Sports
     Others
-}
+} 
